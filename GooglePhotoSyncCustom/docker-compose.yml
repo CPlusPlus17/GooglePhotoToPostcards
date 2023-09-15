@@ -1,0 +1,15 @@
+﻿services:
+  googlephotosync:
+    build:
+      context: ../
+      dockerfile: GooglePhotoSyncCustom/Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - media:/data-media
+      - data:/data
+      - ./postcardconfig.json:/config.json
+      - ./Google.Apis.Auth.OAuth2.Responses.TokenResponse-youraccount:/config/Google.Apis.Auth.OAuth2.Responses.TokenResponse-youraccount
+volumes:
+  media:
+  data:
