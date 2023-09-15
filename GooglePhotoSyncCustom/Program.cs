@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Net;
 
 // Logging stuff
-var loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+var loggerFactory = LoggerFactory.Create(builder => { builder.AddSimpleConsole( options => options.TimestampFormat = "[yyyy-MM-dd HH:mm:ss] "); });
 
 // Run
 Task.WaitAll(SyncPhotos(loggerFactory), SendPostcard(loggerFactory));
