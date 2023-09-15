@@ -18,4 +18,5 @@ Run docker-compose, docker-compose up -d.
 
 # Special thanks
 C# googel photo API - https://github.com/f2calv/CasCap.Apis.GooglePhotos
+
 Postcards python application - https://github.com/abertschi/postcards
