@@ -218,6 +218,7 @@ async Task SendPostcard(ILoggerFactory factory)
             }
             else
             {
+                timeToDelayNextTry = (int) TimeSpan.FromMinutes(24 * 60 + 1).TotalMilliseconds;
                 logger.LogInformation("Card was sent successfully");
                 File.Delete(Path.Combine(envMediaFolderPath, fileToSend));
             }
