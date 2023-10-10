@@ -124,7 +124,7 @@ async Task SyncPhotos(ILoggerFactory factory)
 
                 logger.LogInformation("Downloading {ItemName}", item.filename);
 
-                var bytes = await googlePhotosSvc.DownloadBytes(item);
+                var bytes = await googlePhotosSvc.DownloadBytes(item, int.MaxValue, int.MaxValue);
                 if (bytes is null)
                 {
                     logger.LogError("Downloaded item has 0 bytes, skip saving it");
@@ -150,7 +150,6 @@ async Task SendPostcard(ILoggerFactory factory)
     LogContext.PushProperty("Method", nameof(SendPostcard));
     var logger = factory.CreateLogger<Program>();
     var envMediaFolderPath = Environment.GetEnvironmentVariable("GPSC_MEDIAFOLDERPATH");
-    var timeToDelayNextTry = (int) TimeSpan.FromMinutes(24 * 60 + 1).TotalMilliseconds;
 
     // Validate all envs are present
     if (string.IsNullOrWhiteSpace(envMediaFolderPath))
@@ -167,6 +166,8 @@ async Task SendPostcard(ILoggerFactory factory)
             .Select(f => f.Name)
             .ToList()
             .First();
+
+        int timeToDelayNextTry;
 
         try
         {
