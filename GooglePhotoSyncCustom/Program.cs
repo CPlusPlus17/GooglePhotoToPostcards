@@ -124,7 +124,7 @@ async Task SyncPhotos(ILoggerFactory factory)
 
                 logger.LogInformation("Downloading {ItemName}", item.filename);
 
-                var bytes = await googlePhotosSvc.DownloadBytes(item, int.MaxValue, int.MaxValue);
+                var bytes = await googlePhotosSvc.DownloadBytes(item, 15360, 8640);
                 if (bytes is null)
                 {
                     logger.LogError("Downloaded item has 0 bytes, skip saving it");
