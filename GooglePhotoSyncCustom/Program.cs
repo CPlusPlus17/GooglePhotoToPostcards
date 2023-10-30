@@ -142,7 +142,9 @@ async Task SyncPhotos(ILoggerFactory factory)
 
         // Wait for next sync
         logger.LogInformation("Waiting for {Minutes} minutes until next sync", timeBetweenSyncsInMinutes);
+        syncLock = false;
         await Task.Delay((int) TimeSpan.FromMinutes(timeBetweenSyncsInMinutes).TotalMilliseconds);
+        syncLock = true;
     } while (true);
 }
 
@@ -236,9 +238,7 @@ async Task SendPostcard(ILoggerFactory factory)
             timeToDelayNextTry = (int) TimeSpan.FromMinutes(10).TotalMilliseconds;
         }
 
-        syncLock = false;
         await Task.Delay(timeToDelayNextTry); // In case of error
-        syncLock = true;
     } while (true);
 }
 
