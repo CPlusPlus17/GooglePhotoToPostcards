@@ -64,7 +64,7 @@ async Task SyncPhotos(ILoggerFactory factory)
     // Create file if missing
     if (!File.Exists(envSyncedIdsFilePath))
     {
-        if (!Directory.Exists(Path.GetDirectoryName(envSyncedIdsFilePath))) Directory.CreateDirectory(envSyncedIdsFilePath);
+        if (!Directory.Exists(Path.GetDirectoryName(envSyncedIdsFilePath))) Directory.CreateDirectory(Path.GetDirectoryName(envSyncedIdsFilePath));
         await using (File.Create(envSyncedIdsFilePath)) { }
     }
 
