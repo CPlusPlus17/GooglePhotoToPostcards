@@ -16,6 +16,7 @@ var serilog =  new LoggerConfiguration()
     .CreateLogger();
 
 var loggerFactory = new LoggerFactory().AddSerilog(serilog);
+var syncLock = true;
 
 // Run
 Task.WaitAll(SyncPhotos(loggerFactory), SendPostcard(loggerFactory));
@@ -161,6 +162,11 @@ async Task SendPostcard(ILoggerFactory factory)
 
     do
     {
+        while (syncLock)
+        {
+            await Task.Delay(100);
+        }
+
         var fileToSend = new DirectoryInfo(envMediaFolderPath).GetFiles()
             .OrderBy(f => f.LastWriteTime)
             .Select(f => f.Name)
@@ -230,7 +236,9 @@ async Task SendPostcard(ILoggerFactory factory)
             timeToDelayNextTry = (int) TimeSpan.FromMinutes(10).TotalMilliseconds;
         }
 
+        syncLock = false;
         await Task.Delay(timeToDelayNextTry); // In case of error
+        syncLock = true;
     } while (true);
 }
 
